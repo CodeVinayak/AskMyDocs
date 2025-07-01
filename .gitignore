@@ -35,4 +35,4 @@ es_data/
 **/.env
 
 # Ignore all uploaded files in backend/storage
-backend/storage/*/* 
+backend/storage/** 
