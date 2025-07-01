@@ -6,14 +6,6 @@ ELASTICSEARCH_HOST = os.getenv("ELASTICSEARCH_HOST", "localhost")
 ELASTICSEARCH_PORT = int(os.getenv("ELASTICSEARCH_PORT", 9200))
 ELASTICSEARCH_URL = f"http://{ELASTICSEARCH_HOST}:{ELASTICSEARCH_PORT}"
 
-# Add authentication if needed (e.g., when xpack.security.enabled is true)
-# ELASTICSEARCH_USERNAME = os.getenv("ELASTICSEARCH_USERNAME")
-# ELASTICSEARCH_PASSWORD = os.getenv("ELASTICSEARCH_PASSWORD")
-
-# es_client = Elasticsearch(
-#     ELASTICSEARCH_URL,
-#     basic_auth=(ELASTICSEARCH_USERNAME, ELASTICSEARCH_PASSWORD) if ELASTICSEARCH_USERNAME else None
-# )
 
 es_client = Elasticsearch(ELASTICSEARCH_URL)
 
@@ -21,7 +13,7 @@ INDEX_NAME = "document_chunks"
 
 def create_index_if_not_exists():
     if not es_client.indices.exists(index=INDEX_NAME):
-        es_client.indices.create(index=INDEX_NAME, ignore=400) # Ignore 400 if index already exists
+        es_client.indices.create(index=INDEX_NAME, ignore=400) 
         print(f"Elasticsearch index '{INDEX_NAME}' created.")
     else:
         print(f"Elasticsearch index '{INDEX_NAME}' already exists.")
@@ -33,7 +25,7 @@ def index_document_chunks(document_id: int, chunks: List[dict]):
             "_source": {
                 "document_id": document_id,
                 "chunk_text": chunk["chunk_text"],
-                "metadata": chunk["metadata"] # Includes filename, s3_key, page, etc.
+                "metadata": chunk["metadata"]
             }
         }
         for chunk in chunks
