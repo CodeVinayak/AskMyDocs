@@ -15,13 +15,31 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
+// A wrapper for public routes (login/register) that redirects authenticated users
+function PublicRoute({ children }) {
+  const { isAuthenticated } = useAuth();
+  if (isAuthenticated) {
+    // Redirect to home page if already authenticated
+    return <Navigate to="/" replace />;
+  }
+  return children;
+}
+
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } />
+          <Route path="/register" element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          } />
           {/* Protected route for the main app content */}
           <Route
             path="/"
