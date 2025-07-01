@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {
+  Box,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  CircularProgress,
+  Alert
+} from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+import DescriptionIcon from '@mui/icons-material/Description';
 
 function DocumentList() {
   const [documents, setDocuments] = useState([]);
@@ -58,49 +74,62 @@ function DocumentList() {
     }
   };
 
-  if (loading) {
-    return <p>Loading documents...</p>;
-  }
-
-  if (error) {
-    return <p style={{ color: 'red' }}>{error}</p>;
-  }
-
   return (
-    <div>
-      <h3>My Documents</h3>
-      {documents.length === 0 ? (
-        <p>No documents uploaded yet.</p>
+    <Paper elevation={1} sx={{ p: 3, borderRadius: 2 }}>
+      <Box display="flex" alignItems="center" mb={2}>
+        <DescriptionIcon color="primary" sx={{ fontSize: 28, mr: 1 }} />
+        <Typography variant="h6">My Documents</Typography>
+      </Box>
+      {loading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight={120}>
+          <CircularProgress />
+        </Box>
+      ) : error ? (
+        <Alert severity="error">{error}</Alert>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Filename</th>
-              <th>Upload Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {documents.map(doc => (
-              <tr key={doc.id}>
-                <td>{doc.filename}</td>
-                <td>{new Date(doc.upload_timestamp).toLocaleDateString()}</td>
-                <td>{doc.status}</td>
-                <td>
-                  <button
-                    onClick={() => handleDelete(doc.id)}
-                    disabled={deleteStatus[doc.id] === 'deleting'}
-                  >
-                    {deleteStatus[doc.id] === 'deleting' ? 'Deleting...' : 'Delete'}
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <TableContainer>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Filename</TableCell>
+                <TableCell>Upload Date</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Actions</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {documents.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={4} align="center">
+                    No documents uploaded yet.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                documents.map(doc => (
+                  <TableRow key={doc.id}>
+                    <TableCell>{doc.filename}</TableCell>
+                    <TableCell>{new Date(doc.upload_timestamp).toLocaleDateString()}</TableCell>
+                    <TableCell>{doc.status}</TableCell>
+                    <TableCell>
+                      <Button
+                        variant="outlined"
+                        color="error"
+                        size="small"
+                        startIcon={<DeleteIcon />}
+                        onClick={() => handleDelete(doc.id)}
+                        disabled={deleteStatus[doc.id] === 'deleting'}
+                      >
+                        {deleteStatus[doc.id] === 'deleting' ? 'Deleting...' : 'Delete'}
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       )}
-    </div>
+    </Paper>
   );
 }
 

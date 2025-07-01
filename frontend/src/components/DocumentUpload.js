@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Box, Button, Typography, Paper, Alert, LinearProgress } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function DocumentUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -38,56 +40,65 @@ function DocumentUpload() {
     formData.append('file', selectedFile);
 
     try {
-      // Use the axios instance which is already configured with the JWT interceptor
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/upload/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        // Optional: Track upload progress
-        // onUploadProgress: (progressEvent) => {
-        //   const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-        //   setUploadStatus(`Uploading... ${percentCompleted}%`);
-        // }
       });
-
       setUploadStatus('Upload successful!');
       setUploadedDocument(response.data);
-      setSelectedFile(null); // Clear selected file after successful upload
-      console.log('Upload response:', response.data);
-
+      setSelectedFile(null);
     } catch (error) {
-      console.error('Upload failed:', error);
       setUploadStatus('Upload failed.');
-      // Handle specific error responses (e.g., server errors)
       if (error.response && error.response.data && error.response.data.detail) {
-           setUploadError(`Upload failed: ${error.response.data.detail}`);
-       } else {
-           setUploadError('Upload failed. Please try again.');
-       }
-       setUploadedDocument(null);
+        setUploadError(`Upload failed: ${error.response.data.detail}`);
+      } else {
+        setUploadError('Upload failed. Please try again.');
+      }
+      setUploadedDocument(null);
     } finally {
       setIsUploading(false);
     }
   };
 
   return (
-    <div>
-      <h3>Upload Document</h3>
-      <input type="file" onChange={handleFileChange} disabled={isUploading} />
-      <button onClick={handleUpload} disabled={!selectedFile || isUploading}>
-        {isUploading ? 'Uploading...' : 'Upload'}
-      </button>
-      <p>{uploadStatus}</p>
-      {uploadError && <p style={{ color: 'red' }}>{uploadError}</p>}
-      {uploadedDocument && (
-        <div>
-          <h4>Uploaded Document Info:</h4>
-          <p>ID: {uploadedDocument.document_id}</p>
-          <p>Filename: {uploadedDocument.filename}</p>
-          <p>Status: {uploadedDocument.status}</p>
-        </div>
-      )}
-    </div>
+    <Paper elevation={1} sx={{ p: 3, borderRadius: 2 }}>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <CloudUploadIcon color="primary" sx={{ fontSize: 36, mb: 1 }} />
+        <Typography variant="h6" sx={{ mb: 2 }}>
+          Upload Document
+        </Typography>
+        <input
+          type="file"
+          onChange={handleFileChange}
+          disabled={isUploading}
+          style={{ marginBottom: 16 }}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleUpload}
+          disabled={!selectedFile || isUploading}
+          startIcon={<CloudUploadIcon />}
+          sx={{ mb: 2 }}
+        >
+          {isUploading ? 'Uploading...' : 'Upload'}
+        </Button>
+        {isUploading && <LinearProgress sx={{ width: '100%', mb: 2 }} />}
+        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+          {uploadStatus}
+        </Typography>
+        {uploadError && <Alert severity="error" sx={{ width: '100%', mb: 1 }}>{uploadError}</Alert>}
+        {uploadedDocument && (
+          <Alert severity="success" sx={{ width: '100%' }}>
+            <Typography variant="subtitle2">Uploaded Document Info:</Typography>
+            <Typography variant="body2">ID: {uploadedDocument.document_id}</Typography>
+            <Typography variant="body2">Filename: {uploadedDocument.filename}</Typography>
+            <Typography variant="body2">Status: {uploadedDocument.status}</Typography>
+          </Alert>
+        )}
+      </Box>
+    </Paper>
   );
 }
 
