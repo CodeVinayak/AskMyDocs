@@ -1,36 +1,39 @@
 # AskMyDocs - Changelog & TODO
 
-## [Unreleased]
+## [v1.0.0] - Initial Local-Only Release
 
-### Frontend
-- [x] Reviewed all React components and context for local API usage and JWT authentication.
-- [x] Confirmed no AWS or cloud dependencies in frontend code.
-- [ ] Ensure all API endpoints match backend changes (after backend refactor).
+### Major Changes
+- Removed all AWS, Docker, and Kubernetes dependencies. Project runs fully locally.
+- Switched from S3 to local file storage for document uploads.
+- Replaced OpenAI with Gemini API for RAG agent (google-generativeai).
+- Integrated unstructured.io for advanced document parsing.
+- JWT-based authentication for secure API access.
+- Elasticsearch, PostgreSQL, and Redis used as local services.
+- Modern React frontend with Material-UI, JWT auth, and local API usage.
+- All API requests routed through a custom Axios instance for auth.
+- LLD diagram (class diagram) added and shown in README.
+- .gitignore updated to exclude venv and all files in backend/storage.
+- README simplified and updated for local setup and Gemini API usage.
+- Assignment status and LLD diagram tracked in Assignment_Status.md.
 
-### Backend
-- [x] Reviewed backend for AWS S3, OpenAI, and Docker/K8s dependencies.
-- [x] Remove all AWS S3 code and replace with local file storage for document uploads.
-- [x] Remove all OpenAI/ChatOpenAI code and integrate Gemini API for RAG agent.
-- [x] Update requirements.txt to remove boto3, openai, and add google-generativeai (Gemini).
-- [x] Refactor /upload/ endpoint to save files locally and update storage_path usage.
-- [x] Refactor /query/ endpoint to use Gemini API for answer generation.
-- [x] Update README for local-only setup and remove Docker/K8s/AWS instructions.
+### Completed
+- [x] Frontend and backend refactored for local-only operation.
+- [x] All cloud/container code and instructions removed.
+- [x] Gemini API integrated for RAG queries.
+- [x] Local file storage for uploads.
+- [x] JWT authentication enforced.
+- [x] LLD diagram and status file added.
+- [x] .gitignore and README updated.
+- [x] Full local workflow tested: register, login, upload, query, list, delete documents.
 
-### General
-- [x] Deleted all Docker, Docker Compose, and Kubernetes files.
-- [x] Deleted all cloud-specific instructions from project root.
-- [ ] Update README to reflect local setup and Gemini API usage.
-- [ ] Test full local workflow: register, login, upload, query, list, delete documents.
-
----
-
-## Pending
-- [ ] Update frontend if backend API changes.
-- [ ] Update documentation for local setup.
-- [ ] Test full local workflow.
+### Pending / Optional
+- [ ] Add monitoring/logging (Prometheus, Grafana, ELK) if needed.
+- [ ] Add demo screencast or live demo link.
+- [ ] Add LangChain/LlamaIndex or agent frameworks if strict assignment compliance is required.
+- [ ] Add more diagrams (sequence, deployment) if needed.
 
 ---
 
 ## Notes
-- Always refer to this file for what is pending and what has changed.
-- All changes should be tracked here for future reference. 
+- All major features are complete and work locally.
+- See README for setup instructions and Assignment_Status.md for requirement tracking. 
