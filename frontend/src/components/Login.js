@@ -15,6 +15,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    if (!email.includes('@') || !email.includes('.') || email.indexOf('.') < email.indexOf('@')) {
+      setError('Please enter a valid email address (e.g., user@domain.com).');
+      return;
+    }
     setLoading(true);
     try {
       await login(email, password);
