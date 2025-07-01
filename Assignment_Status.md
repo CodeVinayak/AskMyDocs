@@ -43,9 +43,51 @@
 | Docker/Kubernetes                  | ❌          | Removed as per your request                                |
 | Monitoring/logging                 | ❌          | Not implemented                                            |
 | LangChain/LlamaIndex, Autogen/etc. | ❌          | Not used, Gemini API used directly                         |
-| LLD diagrams                       | ❌          | Not present                                                |
+| LLD diagrams                       | ✅          | Included below                                             |
 | Demo/screencast                    | ❌          | Not present                                                |
 | Architecture/Deployment docs       | ❌          | No Docker/K8s, so not included                             |
+
+---
+
+## LLD Diagram (Class Relationships)
+
+```mermaid
+classDiagram
+    class User {
+        +int id
+        +string username
+        +string email
+        +string password_hash
+        +created_at: datetime
+    }
+    class Document {
+        +int id
+        +string filename
+        +string filepath
+        +string filetype
+        +int owner_id
+        +datetime upload_timestamp
+        +string status
+    }
+    class ParsedContent {
+        +int id
+        +int document_id
+        +text content
+        +json metadata
+    }
+    class Query {
+        +int id
+        +int user_id
+        +int document_id
+        +string question
+        +string answer
+        +datetime timestamp
+    }
+    User "1" --o "*" Document : owns
+    Document "1" --o "1" ParsedContent : has
+    User "1" --o "*" Query : submits
+    Document "1" --o "*" Query : referenced in
+```
 
 ---
 

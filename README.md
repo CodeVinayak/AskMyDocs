@@ -34,6 +34,10 @@ A secure, scalable, full-stack application for document management and intellige
 └── CHANGELOG.md      # Project changelog and TODOs
 ```
 
+## Low Level Design (LLD) Diagram
+
+![LLD Diagram](LLD.png)
+
 ## Local Setup (No Docker, No Cloud)
 
 ### Prerequisites
