@@ -6,7 +6,6 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function DocumentUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
-  const [uploadStatus, setUploadStatus] = useState('Select a file');
   const [uploadError, setUploadError] = useState(null);
   const [uploadedDocument, setUploadedDocument] = useState(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -15,12 +14,10 @@ function DocumentUpload() {
     const file = event.target.files[0];
     if (file) {
       setSelectedFile(file);
-      setUploadStatus(`Selected file: ${file.name}`);
       setUploadError(null);
       setUploadedDocument(null);
     } else {
       setSelectedFile(null);
-      setUploadStatus('Select a file');
       setUploadError(null);
       setUploadedDocument(null);
     }
@@ -33,7 +30,6 @@ function DocumentUpload() {
     }
 
     setIsUploading(true);
-    setUploadStatus('Uploading...');
     setUploadError(null);
     setUploadedDocument(null);
 
@@ -46,11 +42,9 @@ function DocumentUpload() {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setUploadStatus('Upload successful!');
       setUploadedDocument(response.data);
       setSelectedFile(null);
     } catch (error) {
-      setUploadStatus('Upload failed.');
       if (error.response && error.response.data && error.response.data.detail) {
         setUploadError(`Upload failed: ${error.response.data.detail}`);
       } else {

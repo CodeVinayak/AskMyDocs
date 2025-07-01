@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import DocumentUpload from './DocumentUpload';
 import DocumentQuery from './DocumentQuery';
 import DocumentList from './DocumentList';
-import { Box, Button, Typography, Container, Paper, Divider } from '@mui/material';
+import { Box, Button, Typography, Container, Paper } from '@mui/material';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
