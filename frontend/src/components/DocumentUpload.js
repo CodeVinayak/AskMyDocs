@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import api from '../api';
-import { Box, Button, Typography, Paper, Alert, LinearProgress } from '@mui/material';
+import { Box, Button, Typography, Paper, Alert, LinearProgress, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import CloseIcon from '@mui/icons-material/Close';
 
 function DocumentUpload() {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -62,39 +63,46 @@ function DocumentUpload() {
   };
 
   return (
-    <Paper elevation={1} sx={{ p: 3, borderRadius: 2 }}>
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <CloudUploadIcon color="primary" sx={{ fontSize: 36, mb: 1 }} />
-        <Typography variant="h6" sx={{ mb: 2 }}>
-          Upload Document
+    <Paper elevation={0} sx={{ p: 0, borderRadius: 2, background: '#f7f8fa' }}>
+      <Box display="flex" alignItems="center" justifyContent="center" width="100%" gap={1}>
+        <Button
+          variant="outlined"
+          component="label"
+          color="primary"
+          size="small"
+          sx={{ minWidth: 0, px: 1, borderRadius: 2 }}
+        >
+          <CloudUploadIcon sx={{ fontSize: 36, mr: 0.5 }} />
+          <input
+            type="file"
+            hidden
+            onChange={handleFileChange}
+            disabled={isUploading}
+          />
+        </Button>
+        <Typography variant="body2" sx={{ mr: 1, minWidth: 80, maxWidth: 180, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {selectedFile ? selectedFile.name : 'No file selected'}
         </Typography>
-        <input
-          type="file"
-          onChange={handleFileChange}
-          disabled={isUploading}
-          style={{ marginBottom: 16 }}
-        />
+        {selectedFile && (
+          <IconButton size="small" onClick={() => setSelectedFile(null)}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        )}
         <Button
           variant="contained"
           color="primary"
           onClick={handleUpload}
           disabled={!selectedFile || isUploading}
-          startIcon={<CloudUploadIcon />}
-          sx={{ mb: 2 }}
+          size="small"
+          sx={{ borderRadius: 2, minWidth: 0, px: 2 }}
         >
           {isUploading ? 'Uploading...' : 'Upload'}
         </Button>
-        {isUploading && <LinearProgress sx={{ width: '100%', mb: 2 }} />}
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          {uploadStatus}
-        </Typography>
-        {uploadError && <Alert severity="error" sx={{ width: '100%', mb: 1 }}>{uploadError}</Alert>}
+        {isUploading && <LinearProgress sx={{ width: 80, ml: 2 }} />}
+        {uploadError && <Alert severity="error" sx={{ ml: 2, p: 0.5, fontSize: 12 }}>{uploadError}</Alert>}
         {uploadedDocument && (
-          <Alert severity="success" sx={{ width: '100%' }}>
-            <Typography variant="subtitle2">Uploaded Document Info:</Typography>
-            <Typography variant="body2">ID: {uploadedDocument.document_id}</Typography>
-            <Typography variant="body2">Filename: {uploadedDocument.filename}</Typography>
-            <Typography variant="body2">Status: {uploadedDocument.status}</Typography>
+          <Alert severity="success" sx={{ ml: 2, p: 0.5, fontSize: 12 }}>
+            Uploaded: {uploadedDocument.filename}
           </Alert>
         )}
       </Box>

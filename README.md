@@ -54,13 +54,21 @@ GEMINI_API_KEY=your-gemini-api-key
 ```
 
 ### Backend Setup
-1. Install Python dependencies:
+1. (Recommended) Create and activate a Python virtual environment:
    ```bash
    cd backend
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
+2. Install Python dependencies:
+   ```bash
    pip install -r requirements.txt
    ```
-2. Run database migrations (if using Alembic) or ensure tables are created.
-3. Start the FastAPI backend:
+3. Run database migrations (if using Alembic) or ensure tables are created.
+4. Start the FastAPI backend:
    ```bash
    uvicorn main:app --reload
    ```

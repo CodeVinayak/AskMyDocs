@@ -39,16 +39,16 @@ function DocumentQuery() {
   };
 
   return (
-    <Paper elevation={1} sx={{ p: 3, borderRadius: 2 }}>
-      <Box display="flex" flexDirection="column" alignItems="center">
-        <SearchIcon color="primary" sx={{ fontSize: 32, mb: 1 }} />
-        <Typography variant="h6" sx={{ mb: 2 }}>
+    <Paper elevation={1} sx={{ p: { xs: 2, sm: 3 }, borderRadius: 3, background: '#f7f8fa' }}>
+      <Box display="flex" flexDirection="column" alignItems="center" width="100%">
+        <SearchIcon color="primary" sx={{ fontSize: 36, mb: 1 }} />
+        <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
           Ask a Question
         </Typography>
         <Box component="form" onSubmit={handleQuerySubmit} sx={{ width: '100%' }}>
           <TextField
             id="query"
-            label="Your Question"
+            label="Ask a question about your documents... (e.g., 'What are the key findings?')"
             multiline
             rows={3}
             fullWidth
@@ -56,7 +56,8 @@ function DocumentQuery() {
             onChange={handleQueryChange}
             disabled={loading}
             required
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, borderRadius: 2, background: '#fff', boxShadow: loading ? '0 0 0 2px #3B82F6' : 'none', border: '1px solid #e0e7ef' }}
+            InputProps={{ style: { borderRadius: 12 } }}
           />
           <Button
             type="submit"
@@ -65,16 +66,24 @@ function DocumentQuery() {
             fullWidth
             startIcon={<SearchIcon />}
             disabled={loading}
+            sx={{ fontWeight: 700, borderRadius: 2 }}
           >
-            {loading ? <CircularProgress size={22} color="inherit" /> : 'Ask'}
+            Ask
           </Button>
         </Box>
         {error && <Alert severity="error" sx={{ width: '100%', mt: 2 }}>{error}</Alert>}
         {answer && (
-          <Alert severity="success" sx={{ width: '100%', mt: 2 }}>
-            <Typography variant="subtitle2">Answer:</Typography>
-            <Typography variant="body2">{answer}</Typography>
-          </Alert>
+          <Box sx={{ width: '100%', mt: 2, background: '#eaf1fb', border: '1px solid #b6d4fe', borderRadius: 2, p: 2, boxShadow: '0 2px 8px rgba(59,130,246,0.06)' }}>
+            <Typography variant="subtitle2" sx={{ display: 'flex', alignItems: 'center', color: '#22C55E', fontWeight: 600, mb: 1 }}>
+              ✓ Answer
+            </Typography>
+            <Typography variant="body2" sx={{ lineHeight: 1.7 }}>{answer}</Typography>
+          </Box>
+        )}
+        {loading && !answer && (
+          <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
+            <CircularProgress size={18} sx={{ mr: 1 }} /> Thinking...
+          </Typography>
         )}
       </Box>
     </Paper>
