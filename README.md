@@ -2,6 +2,25 @@
 
 A secure, scalable, full-stack application for document management and intelligent querying using RAG (Retrieval-Augmented Generation) technology.
 
+## 🚀 Quick Start
+
+1. **Start the Backend**
+   ```bash
+   cd backend
+   uvicorn main:app --reload
+   ```
+   The backend will be available at http://localhost:8000
+
+2. **Start the Frontend**
+   Open a new terminal window/tab:
+   ```bash
+   cd frontend
+   npm start
+   ```
+   The frontend will be available at http://localhost:3000
+
+---
+
 ## Project Structure
 
 ```

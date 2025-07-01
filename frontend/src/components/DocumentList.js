@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import {
   Box,
   Typography,
@@ -28,7 +28,7 @@ function DocumentList() {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}/documents/`);
+      const response = await api.get('/documents/');
       setDocuments(response.data);
     } catch (err) {
       console.error('Failed to fetch documents:', err);
@@ -55,7 +55,7 @@ function DocumentList() {
     setError(null);
 
     try {
-      await axios.delete(`${process.env.REACT_APP_API_URL}/documents/${documentId}`);
+      await api.delete(`/documents/${documentId}`);
 
       // On successful deletion, remove the document from the list state
       setDocuments(prevDocuments => prevDocuments.filter(doc => doc.id !== documentId));

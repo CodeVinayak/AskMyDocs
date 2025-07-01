@@ -94,26 +94,6 @@ export const AuthProvider = ({ children }) => {
     // Redirect handled by ProtectedRoute or calling component
   };
 
-  // Axios interceptor to add JWT token to requests
-  useEffect(() => {
-    const interceptor = axios.interceptors.request.use(
-      (config) => {
-        const token = getToken();
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
-    return () => {
-      axios.interceptors.request.eject(interceptor);
-    };
-  }, [isAuthenticated]); // Re-attach interceptor if auth status changes
-
-
   return (
     <AuthContext.Provider value={{ isAuthenticated, user, loading, login, register, logout, getToken }}>
       {!loading && children}

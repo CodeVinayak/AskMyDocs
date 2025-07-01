@@ -10,7 +10,7 @@ alembic==1.13.1
 redis==5.0.1
 
 # unstructured requires specific typing-extensions
-unstructured[pdf,csv,ppt,epub,markdown,rtf]==0.12.6
+unstructured[all-docs]
 
 # Use a valid available version
 elasticsearch==7.17.9

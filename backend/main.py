@@ -92,8 +92,8 @@ def initialize_gemini():
         gemini_model = None
     else:
         genai.configure(api_key=GEMINI_API_KEY)
-        gemini_model = genai.GenerativeModel('gemini-pro')
-        logger.info("Gemini model initialized.")
+        gemini_model = genai.GenerativeModel('models/gemini-2.5-flash')
+        logger.info("Gemini model 'models/gemini-2.5-flash' initialized.")
 
 @app.on_event("startup")
 async def startup_event():
@@ -370,7 +370,7 @@ async def upload_document(file: UploadFile = File(...), db: Session = Depends(ge
             with open(local_file_path, "rb") as f:
                 content_type = file.content_type
                 logger.debug(f"Attempting to parse file {file.filename} with content type {content_type}.")
-                parsed_elements = partition(file=f, filename=file.filename, content_type=content_type)
+                parsed_elements = partition(filename=local_file_path, content_type=content_type)
             logger.info(f"Successfully parsed file {file.filename}. Found {len(parsed_elements)} elements.")
         except Exception as parsing_error:
             logger.error(f"Error parsing document {file.filename}: {parsing_error}", exc_info=True)

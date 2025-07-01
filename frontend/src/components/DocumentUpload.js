@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Box, Button, Typography, Paper, Alert, LinearProgress } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
@@ -40,7 +40,7 @@ function DocumentUpload() {
     formData.append('file', selectedFile);
 
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/upload/`, formData, {
+      const response = await api.post('/upload/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

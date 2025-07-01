@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import { Box, Button, TextField, Typography, Paper, Alert, CircularProgress } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -24,7 +24,7 @@ function DocumentQuery() {
     setAnswer(null);
     setError(null);
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/query/`, { query });
+      const response = await api.post('/query/', { query });
       setAnswer(response.data.answer);
     } catch (err) {
       setAnswer(null);
