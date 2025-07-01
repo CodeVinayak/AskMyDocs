@@ -405,8 +405,7 @@ async def upload_document(file: UploadFile = File(...), db: Session = Depends(ge
                             models.DocumentChunk(
                                 document_id=db_document.id,
                                 chunk_text=chunk.page_content,
-                                metadata=metadata_json,
-                                embedding=chunk_embedding
+                                metadata=metadata_json
                             )
                         )
                     except Exception as chunk_processing_error:
@@ -432,7 +431,7 @@ async def upload_document(file: UploadFile = File(...), db: Session = Depends(ge
                     raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to save document chunks to database")
             if chunks_to_index:
                 try:
-                    index_document_chunks(chunks_to_index)
+                    index_document_chunks(db_document.id, chunks_to_index)
                     logger.info(f"Indexed {len(chunks_to_index)} chunks in Elasticsearch for document ID {db_document.id}.")
                 except ElasticsearchException as e:
                     logger.error(f"Elasticsearch indexing failed for document ID {db_document.id}: {e}", exc_info=True)
