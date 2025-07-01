@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+virtual_environment/
+venv/
+.env
+
+# Node.js
+node_modules/
+build/
+
+# Docker
+*.dockerignore
+
+# Kubernetes
+k8s/app-secrets.yaml
+
+# IDEs and OS
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Logs and temporary files
+*.log
+*.tmp
+*~
+
+# Docker Volumes
+db_data/
+es_data/ 

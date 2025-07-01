@@ -9,59 +9,75 @@ A secure, scalable, full-stack application for document management and intellige
 ├── backend/           # FastAPI backend
 │   ├── main.py
 │   ├── requirements.txt
-│   └── Dockerfile
 ├── frontend/         # React frontend
 │   ├── src/
 │   ├── package.json
-│   └── Dockerfile
-└── docker-compose.yml
+└── CHANGELOG.md      # Project changelog and TODOs
 ```
 
-## Local Setup with Docker Compose
+## Local Setup (No Docker, No Cloud)
 
 ### Prerequisites
+- Python 3.11+
+- Node.js 18+
+- PostgreSQL (local instance)
+- Redis (local instance)
+- Elasticsearch (local instance)
 
-- Docker
-- Docker Compose
+### Environment Variables
+Create a `.env` file in the `backend/` directory with the following:
+```
+DATABASE_URL=postgresql://user:password@localhost:5432/askmydocs_db
+REDIS_URL=redis://localhost:6379/0
+ELASTICSEARCH_HOST=localhost
+ELASTICSEARCH_PORT=9200
+GEMINI_API_KEY=your-gemini-api-key
+```
 
-### Running the Application
-
-1. Clone the repository:
+### Backend Setup
+1. Install Python dependencies:
    ```bash
-   git clone <repository-url>
-   cd askmydocs
+   cd backend
+   pip install -r requirements.txt
+   ```
+2. Run database migrations (if using Alembic) or ensure tables are created.
+3. Start the FastAPI backend:
+   ```bash
+   uvicorn main:app --reload
    ```
 
-2. Start the application using Docker Compose:
+### Frontend Setup
+1. Install Node dependencies:
    ```bash
-   docker compose up --build
+   cd frontend
+   npm install
+   ```
+2. Start the React frontend:
+   ```bash
+   npm start
    ```
 
-3. Access the applications:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
-   - API Documentation: http://localhost:8000/docs
+### Access the Application
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- API Documentation: http://localhost:8000/docs
 
-### Development
-
-- The backend and frontend services are configured with hot-reloading for development.
-- Backend code changes will automatically reload the FastAPI server.
-- Frontend code changes will automatically reload the React development server.
-
-## Features (Coming Soon)
-
-- Document upload and management
-- Advanced NLP features with RAG agents
-- User authentication
+## Features
+- Document upload and management (local file storage)
+- Advanced NLP features with RAG agents (Gemini API)
+- User authentication (JWT)
 - Document parsing with unstructured.io
-- Elasticsearch integration
-- AWS S3 storage integration
+- Elasticsearch integration (local)
 
 ## Tech Stack
-
 - Backend: FastAPI
 - Frontend: React.js
 - Database: PostgreSQL, Redis
 - Document Parsing: unstructured.io
 - Search Engine: Elasticsearch
-- Containerization: Docker, Kubernetes 
+- RAG LLM: Gemini API (google-generativeai)
+
+## Notes
+- All files are stored locally in the backend's `storage/` directory.
+- No Docker, Kubernetes, or AWS is required or used.
+- See `CHANGELOG.md` for pending work and project progress. 

@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Vector
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
+from pgvector.sqlalchemy import Vector
 from .database import Base
 
 class User(Base):
@@ -33,8 +34,7 @@ class DocumentChunk(Base):
     id = Column(Integer, primary_key=True, index=True)
     document_id = Column(Integer, ForeignKey("documents.id"), nullable=False)
     chunk_text = Column(String, nullable=False)
-    metadata = Column(String) # Store metadata as JSON string or use JSONB type if preferred
-    # Assuming the embedding model produces 384 dimensions (for all-MiniLM-L6-v2)
-    embedding = Column(Vector(384))
+    chunk_metadata = Column(String) # Store metadata as JSON string or use JSONB type if preferred
+    # embedding = Column(Vector(384))  # COMMENTED OUT: Remove vector column for now
 
     document = relationship("Document", back_populates="chunks") 

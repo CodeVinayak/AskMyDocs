@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }) => {
   // Register function
   const register = async (username, email, password) => {
       try {
+          console.log("API URL:", process.env.REACT_APP_API_URL);
           // Replace with your backend register endpoint
           const response = await axios.post(`${process.env.REACT_APP_API_URL}/auth/register`, {
               username,
