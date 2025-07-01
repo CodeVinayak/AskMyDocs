@@ -13,7 +13,7 @@ A full-stack app for document management and intelligent querying using RAG (Ret
 
 ## Low Level Design (LLD) Diagram
 
-![LLD Diagram](LLD.png)
+<img src="LLD.png" alt="LLD Diagram" width="400" />
 
 ## Setup
 
